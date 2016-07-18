@@ -1,0 +1,79 @@
+
+body{
+   background-image: url(../img/back_2.jpg);
+   background-repeat: none;
+   background-attachment: fixed;
+   background-position: center center;
+   background-size: cover;
+
+}
+
+.panel{
+  background-color: rgba(255, 255, 255, 0.69);
+}
+
+.table-striped > tbody > tr:nth-of-type(2n+1) {
+    background-color: rgba(249, 249, 249, 0.56);
+}
+
+.btn-td{
+  padding: 0px 10px;
+}
+
+.panel-heading h3 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: normal;
+    width: 95%;
+    font-size: 20px
+}
+
+
+/*-- ESTILOS DE TABLAS  --*/
+
+th {
+  text-align: center !important;
+}
+th[st-sort] {
+  cursor: pointer;
+}
+th[st-sort]:hover {
+  opacity: 0.5;
+}
+tr{
+    cursor: pointer;
+}
+.pagination {
+  margin: 5px 0 !important;
+}
+.st-selected {
+  background: rgba(255, 213, 33, 0.48) !important;
+}
+.table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+  border-top: 2px solid #ddd !important;
+  padding: 5px;
+  line-height: 1.42857143;
+  vertical-align: middle;
+}
+.table {
+  margin-bottom: 10px;
+}
+
+body { padding-top: 70px; }
+
+/*-- FIN ESTILOS DE TABLAS --*/
+
+/*-- ESTILOS DE FORMULARIOS --*/
+.msg-div{
+	border: 2px solid red;
+	border-radius: 5px;
+	margin-bottom: 10px;
+}
+
+.msg-error {
+    color:#F00;
+    font-size:14px;
+}
+
+/*-- FIN ESTILOS DE FORMULARIOS --*/
