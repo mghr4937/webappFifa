@@ -1,31 +1,99 @@
-<div class="panel panel-success" >
-  <div class="panel-heading">
-    <h3 class="panel-title">TOURNAMENTS</h3>
-  </div>
-  <div class="panel-body">
-    <div class="row">
-
-      <div class="col-md-6">
-
-        <form id="idform" class="form-horizontal" role="form" novalidate="" name="tournamentForm">
-
-          <div class="form-group">
-            <label class="control-label col-md-5" for="">Select Tournament:</label>
-            <div class="col-md-7">
-              <select ng-model="selTour" style="width: 100%;" ng-change="getAllMatchs(selTour)">                
-                <option ng-repeat="tour in tournaments" value="{{tour.id}}">{{tour.name}}</option>
-              </select>
-            </div>
-          </div>
-
-        </form>
-
-      </div>
-      <!-- FIN FORM -->
-
+<div class="panel panel-success">
+    <div class="panel-heading">
+        <h3 class="panel-title">TOURNAMENTS</h3>
     </div>
-    <!-- FIN ROW  -->
-  </div>
-  <!-- FIN PANEL-BODY  -->
+    <div class="panel-body">
+        <div class="row">
+
+            <div class="col-md-6">
+
+                <form id="idform" class="form-horizontal" role="form" novalidate="" name="tournamentForm">
+
+                    <div class="form-group">
+                        <label class="control-label col-md-5" for="">Select Tournament:</label>
+                        <div class="col-md-7">
+                            <select class="form-control" ng-model="selTour" style="width: 100%;" ng-change="getAllMatchs(selTour)">
+                                <option ng-repeat="tour in tournaments" value="{{tour.id}}">{{tour.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+            <!-- FIN FORM -->
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="button" ng-click="setFinal(selTour)" class="btn btn-lg btn-primary">
+                            <i class="glyphicon glyphicon glyphicon-list"></i>
+                            Set Final
+                        </button>
+                    </div>
+                    <div class="col-md-6">
+                        <button type="button" ng-click="" class="btn btn-lg btn-warning">
+                            <i class="glyphicon glyphicon glyphicon-th"></i>
+                            Finish Tournament
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- FIN ROW  -->
+    </div>
+    <!-- FIN PANEL-BODY  -->
 </div>
 <!-- FIN PANEL -->
+
+<script type="text/ng-template" id="setFinalModal.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Set Final</h3>
+    </div>
+    <div class="modal-body">
+        <div class="form-horizontal">
+
+            <div class="form-group">
+                <div class="col-md-4">
+                    <select class="form-control" ng-model="match.user_a" style="width: 100%;">
+                        <option ng-repeat="user in users" value="{{user}}">{{user | capitalize}}</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" name="gol" class="form-search form-control" placeholder="{{match.user_a | capitalize}} Score"
+                    data-ng-model="match.gol_a" data-valid-number>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" name="penal" class="form-search form-control" placeholder="{{match.user_a | capitalize}} Penalties"
+                    data-ng-model="match.penal_a" data-valid-number>
+                </div>
+
+            </div>
+
+            <div class="form-group">
+              <div class="col-md-4">
+                  <select class="form-control" ng-model="match.user_b" style="width: 100%;">
+                      <option ng-repeat="user in users" value="{{user}}">{{user | capitalize}}</option>
+                  </select>
+              </div>
+                <div class="col-md-3">
+                    <input type="text" name="cell" class="form-search form-control" placeholder="{{match.user_b | capitalize}} Score"
+                     data-ng-model="match.gol_b" data-valid-number>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" name="penal" class="form-search form-control" placeholder="{{match.user_b | capitalize}} Penalties"
+                    data-ng-model="match.penal_b" data-valid-number>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3 {{msgDiv}} text-center">
+            <p style="color: red; margin: 0px;">{{msg}}</p>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+        <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+    </div>
+</script>

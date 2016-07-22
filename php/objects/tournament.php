@@ -11,6 +11,8 @@ class Tournament
     public $monthyear;
     public $place;
     public $users;
+    public $has_final;
+    public $is_finish;
     // constructor with $db as database connection
     public function __construct($db)
     {
@@ -119,6 +121,20 @@ function update(){
     }
 }
 
+function setFinal(){
+  $query = "UPDATE " . $this->table_name . " SET has_final = 1 , is_finish = 1 WHERE id = :id;";
+  // prepare query statement
+  $stmt = $this->conn->prepare($query);
+  // bind new values
+  $stmt->bindParam(':id', $this->id);
+  // execute the query
+  if($stmt->execute()){
+      return true;
+  }else{
+      return false;
+  }
+}
+
 // delete the product
 function delete(){
     // delete query
@@ -139,7 +155,7 @@ function delete(){
 
 function readAll(){
     // select all query
-    $query = "SELECT id, name, place, monthyear, (SELECT COUNT(*) FROM TORNEOS.tournament_user where id = id_tournament) as count FROM TORNEOS.tournaments ORDER BY id DESC";
+    $query = "SELECT id, name, place, monthyear, has_final, is_finish,  (SELECT COUNT(*) FROM TORNEOS.tournament_user where id = id_tournament) AS count FROM TORNEOS.tournaments ORDER BY id DESC";
     // prepare query statement
     $stmt = $this->conn->prepare( $query );
     // execute query
@@ -150,7 +166,7 @@ function readAll(){
 // read products
 function readAllMatchs(){
     // select all query
-    $query = "SELECT id_tournament, (SELECT name from TORNEOS.users where id = id_user_a) as user_a, (SELECT name from TORNEOS.users where id = id_user_B) as user_b, gol_a, gol_b from TORNEOS.matchs where id_tournament = ?";
+    $query = "SELECT id_tournament, (SELECT name from TORNEOS.users where id = id_user_a) AS user_a, (SELECT name FROM TORNEOS.users WHERE id = id_user_B) AS user_b, gol_a, gol_b FROM TORNEOS.matchs WHERE is_final = 0 AND id_tournament = ?";
     // prepare query statement
     $stmt = $this->conn->prepare( $query );
     $stmt->bindParam(1, $this->id);

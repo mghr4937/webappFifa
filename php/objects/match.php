@@ -11,7 +11,7 @@ class Match
     public $user_b;
     public $gol_a;
     public $gol_b;
-
+    public $is_Final;
     // constructor with $db as database connection
     public function __construct($db)
     {
@@ -19,25 +19,33 @@ class Match
     }
 
 // create product
-public function create()
+public function setFinal()
 {
-    // // query to insert record
-    // $query = 'INSERT INTO '.$this->table_name.'(name) VALUES (:name);';
-    // // prepare query
-    // $stmt = $this->conn->prepare($query);
-    // // posted values
-    // $this->name = htmlspecialchars(strip_tags($this->name));
-    // // bind values
-    // $stmt->bindParam(':name', $this->name);
-    // // execute query
-    // if ($stmt->execute()) {
-    //     return true;
-    // } else {
-    //     echo '<pre>';
-    //     print_r($stmt->errorInfo());
-    //     echo '</pre>';
-    //     return false;
-    // }
+    // query to insert record
+    $query = 'INSERT INTO '.$this->table_name.'(id_tournament ,id_user_A ,id_user_B, gol_user_A, gol_user_B, is_Final)
+     VALUES(:id_tournament ,:id_user_A ,:id_user_B, :gol_user_A ,:gol_user_B, 1);';
+    $stmt = $this->conn->prepare($query);
+    //print_r($match);
+    $this->id_tournament=htmlspecialchars(strip_tags($this->id_tournament));
+    $this->user_a=htmlspecialchars(strip_tags($this->user_a));
+    $this->user_b=htmlspecialchars(strip_tags($this->user_b));
+    $this->gol_a=htmlspecialchars(strip_tags($this->gol_a));
+    $this->gol_b=htmlspecialchars(strip_tags($this->gol_b));
+
+    // bind new values
+    $stmt->bindParam(':id_t', $this->id_tournament);
+    $stmt->bindParam(':user_a', $this->user_a);
+    $stmt->bindParam(':user_b', $this->user_b);
+    $stmt->bindParam(':gol_a', $this->gol_a);
+    $stmt->bindParam(':gol_b', $this->gol_b);
+    if($stmt->execute()){
+      return true;
+    }else{
+      echo '<pre>';
+      print_r($stmt->errorInfo());
+      echo '</pre>';
+      return false;
+    }
 }
 
 // update the user
@@ -63,7 +71,10 @@ function update(){
     if($stmt->execute()){
         return true;
     }else{
-        return false;
+      echo '<pre>';
+      print_r($stmt->errorInfo());
+      echo '</pre>';
+      return false;
     }
 }
 
@@ -86,13 +97,15 @@ function delete(){
 
 // read products
 function readAll($id_t){
-    // select all query
-    $query = "SELECT id_tournament, (SELECT name FROM TORNEOS.users WHERE id = id_user_a), (SELECT name FROM TORNEOS.users WHERE id = id_user_B), gol_a, gol_b FROM TORNEOS.matchs WHERE id_tournament =".$id_t;
-    // prepare query statement
-    $stmt = $this->conn->prepare( $query );
-    // execute query
-    $stmt->execute();
-    return $stmt;
+    // // select all query
+    // $query = "SELECT id_tournament, (SELECT name FROM TORNEOS.users WHERE id = id_user_a),
+    // (SELECT name FROM TORNEOS.users WHERE id = id_user_B), gol_a, gol_b FROM TORNEOS.matchs
+    // WHERE is_final = 0 AND id_tournament =".$id_t;
+    // // prepare query statement
+    // $stmt = $this->conn->prepare( $query );
+    // // execute query
+    // $stmt->execute();
+    // return $stmt;
 }
 
 
