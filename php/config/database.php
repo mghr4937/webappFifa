@@ -4,9 +4,9 @@ class Database
 {
     // specify your own database credentials
     private $host = 'localhost';
-    private $db_name = 'torneos';
+    private $db_name = 'fifa_db';
     private $username = 'root';
-    private $password = 'root';
+    private $password = 'pass';
     public $conn;
 
     // get the database connection

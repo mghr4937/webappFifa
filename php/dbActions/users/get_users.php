@@ -20,9 +20,9 @@ $user = new User($db);
 $stmt = $user->readAll();
 $num = $stmt->rowCount();
 
+$data="";
 // check if more than 0 record found
-if($num > 0){
-    $data="";
+if($num > 0){    
     $x=1;
     // retrieve our table contents
     // fetch() is faster than fetchAll()

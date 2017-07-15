@@ -6,9 +6,9 @@ app.controller('mainCtrl', ['$scope', '$http', '$uibModal', function($scope, $ht
 
     $scope.getAllTournaments = function() {
         $http.get("php/dbActions/tournaments/get_tournaments.php").success(function successCallback(response) {
-            $scope.tournaments = response.records;
-
-
+            if(response.records[index] != null ){
+                $scope.tournaments = response.records;    
+            }     
             //$scope.tournamentsDisplayed = [].concat($scope.tournaments);
         }, function errorCallback(response) {});
     }
