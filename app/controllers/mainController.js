@@ -133,7 +133,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$uibModal', function($scope, $ht
         }
         return usersName;
     }
-
+    $scope.usersName = getUsers($scope.matchs);
 
 }]);
 
@@ -203,18 +203,18 @@ app.controller('setFinalCtrl', function($scope, $uibModalInstance, users, id_t, 
     $scope.ok = function() {
         if (angular.isDefined($scope.match.gol_a)) {
             if (angular.isDefined($scope.match.gol_b)) {
-                // $http.post("php/dbActions/tournaments/update_match.php", $scope.match).
-                // then(function successCallback(response){
-                // 	match.gol_a = $scope.match.gol_a;
-                //   match.gol_b = $scope.match.gol_b;
-                // },
-                // function errorCallback(response){
-                // 	$scope.match = angular.copy(match);
-                // 	$scope.setMsg ("UPDATE MATCH ERROR");
-                // });
-                //$uibModalInstance.close();
+                $http.post("php/dbActions/tournaments/set_final.php", $scope.match).
+                then(function successCallback(response){
+                	match.gol_a = $scope.match.gol_a;
+                  match.gol_b = $scope.match.gol_b;
+                },
+                function errorCallback(response){
+                	$scope.match = angular.copy(match);
+                	$scope.setMsg ("UPDATE MATCH ERROR");
+                });
+                $uibModalInstance.close();
             } else {
-                $scope.setMsg("ERROR, GOL REQUIRED");
+                $scope.setMsg("ERROR, GOL REQUIRED");s
             }
         } else {
             $scope.setMsg("ERROR, GOL REQUIRED");
