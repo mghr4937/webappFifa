@@ -7,7 +7,7 @@ $scope.users = users;
 $scope.tour.matches = [];
 
 $scope.getAll = function(){
-     $http.get("php/dbActions/tournaments/get_tournaments.php").success(function successCallback(response){
+     $http.get("php/dbActions/tournaments/get_tournaments.php").then(function successCallback(response){
         $scope.tournaments = response.records;
         //$scope.tournamentsDisplayed = [].concat($scope.tournaments);
     }, function errorCallback(response) {

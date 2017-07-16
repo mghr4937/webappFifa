@@ -5,7 +5,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$uibModal', function($scope, $ht
     $scope.table = [];
 
     $scope.getAllTournaments = function() {
-        $http.get("php/dbActions/tournaments/get_tournaments.php").success(function successCallback(response) {
+        $http.get("php/dbActions/tournaments/get_tournaments.php").then(function successCallback(response) {
             if(response.records[index] != null ){
                 $scope.tournaments = response.records;    
             }     
@@ -19,7 +19,7 @@ app.controller('mainCtrl', ['$scope', '$http', '$uibModal', function($scope, $ht
         $scope.table = [];
         $http.post("php/dbActions/tournaments/get_matchs.php", {
             'id': id
-        }).success(function successCallback(response) {
+        }).then(function successCallback(response) {
             $scope.matchs = response.records;
             var usersName = getUsers($scope.matchs);
             $scope.generatePosTable(usersName);

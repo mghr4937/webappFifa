@@ -5,8 +5,10 @@ app.controller('usersCtrl', ['$scope', '$http', function($scope, $http, uibDateP
 
     // read users
     $scope.getAll = function(){
-        $http.get("php/dbActions/users/get_users.php").success(function(response){
-            $scope.users = response.records;
+        $http.get("php/dbActions/users/get_users.php").then(function(response){
+            if(response.records[index] != null ){
+                $scope.users = response.records;         
+            }
         });
     }
     $scope.getAll();
