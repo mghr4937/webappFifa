@@ -1,4 +1,9 @@
 <?php
+header('Access-Control-Allow-Origin: *');
+header("Access-Control-Allow-Methods: POST");
+header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization");
+header("Content-Type: application/json; charset=UTF-8");
+
 // get database connection
 include_once(dirname(__FILE__).'/../../config/database.php');
 $database = new Database();
@@ -16,10 +21,10 @@ $user->name = $data->name;
 
 // create the product
 if($user->create()){
-    echo "User was created.";
+    http_response_code(200);
 }
 // if unable to create the product, tell the user
 else{
-    echo "Unable to user product.";
+   http_response_code(403);
 }
 ?>

@@ -1,6 +1,6 @@
 <?php
 header('Access-Control-Allow-Origin: *');
-header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+header("Access-Control-Allow-Methods: GET");
 header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization");
 header("Content-Type: application/json; charset=UTF-8");
 
@@ -39,8 +39,11 @@ if($num > 0){
         $data .= $x < $num ? ',' : ''; $x++;
 
       }
+}else{
+    http_response_code(500);
 }
-
+http_response_code(200);
 // json format output
 echo '{"records":[' . $data . ']}';
+ 
 ?>

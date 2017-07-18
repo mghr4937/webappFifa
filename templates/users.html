@@ -11,7 +11,7 @@
                     <div class="form-group">
                         <label class="control-label col-md-3" for="Name">Name:</label>
                         <div class="col-md-9">
-                            <input type="text" name="Name" class="form-search form-control" ng-change="clearMsg()" placeholder="Enter Name" ng-model="user.name" ng-model-options="{ updateOn: 'blur' }" required></input>
+                            <input type="text" name="Name" class="form-search form-control" ng-change="clearMsg()" placeholder="Enter Name" ng-model="user.name"  required></input>
                         </div>
                     </div>
 
@@ -29,7 +29,7 @@
             <!-- FIN FORM -->
 
             <div class="col-md-6">
-                <table st-table="usersDisplayed" st-safe-src="users" class="table table-striped">
+                <table st-table="users" class="table table-striped">
                     <thead>
                         <tr>
                             <th colspan="3"><input st-search="" class="form-control" placeholder="global search ..." type="text"/></th>
@@ -41,7 +41,7 @@
 
                     </thead>
                     <tbody>
-                        <tr ng-repeat="row in usersDisplayed" st-select-row="row" st-select-mode="single" ng-click="rowSelect(row)">
+                        <tr ng-repeat="row in users" st-select-row="row" st-select-mode="single" ng-click="rowSelect(row)">
                             <td>{{row.name | capitalize}}</td>
                             <td>
                                 <button type="button" ng-click="deleteUser(row)" class="btn btn-sm btn-danger">

@@ -1,5 +1,5 @@
 //var app = angular.module("app", []);
-var app = angular.module('app', ['ui.bootstrap', 'smart-table', 'btorfs.multiselect'])
+var app = angular.module('app', ['ui.bootstrap', 'smart-table', 'btorfs.multiselect', 'ngNotify'])
 .run(['$http', function ($http) {
     $http.defaults.headers.common['Ajax-Request'] = '1';}])
 

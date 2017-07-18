@@ -8,6 +8,7 @@
 <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
 <script src="bower_components/angular-bootstrap-multiselect/dist/angular-bootstrap-multiselect.js"></script>
 <script src="bower_components/angular-smart-table/dist/smart-table.min.js"></script>
+<script src="bower_components/ng-notify/dist/ng-notify.min.js"></script>
 <script src="bower_components/jquery/dist/jquery.js"></script>
 <script src="app/app.js"></script>
 <script src="app/controllers/usersController.js"></script>
