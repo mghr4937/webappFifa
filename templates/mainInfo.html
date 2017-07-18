@@ -1,6 +1,6 @@
 <div class="panel panel-success">
     <div class="panel-heading">
-        <h3 class="panel-title">TOURNAMENTS</h3>
+        <h3 class="panel-title">TORNEOS</h3>
     </div>
     <div class="panel-body">
         <div class="row">
@@ -10,7 +10,7 @@
                 <form id="idform" class="form-horizontal" role="form" novalidate="" name="tournamentForm">
 
                     <div class="form-group">
-                        <label class="control-label col-md-5" for="">Select Tournament:</label>
+                        <label class="control-label col-md-5" for="">Elegir Torneo:</label>
                         <div class="col-md-7">
                             <select class="form-control" ng-model="selTour" style="width: 100%;" ng-change="getAllMatchs(selTour)">
                                 <option ng-repeat="tour in tournaments" value="{{tour.id}}">{{tour.name}}</option>
@@ -33,7 +33,7 @@
                     <div class="col-md-6">
                         <button type="button" ng-click="" class="btn btn-lg btn-warning">
                             <i class="glyphicon glyphicon glyphicon-th"></i>
-                            Finish Tournament
+                            Terminar Torneo
                         </button>
                     </div>
                 </div>
@@ -94,6 +94,6 @@
     </div>
     <div class="modal-footer">
         <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
-        <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+        <button class="btn btn-warning" type="button" ng-click="cancel()">Cancelar</button>
     </div>
 </script>

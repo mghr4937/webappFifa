@@ -34,7 +34,8 @@ if($num > 0){
         extract($row);
         $data .= '{';
             $data .= '"id":"'  . $id . '",';
-            $data .= '"name":"' . $name . '"';
+            $data .= '"name":"' . $name . '",';
+            $data .= '"active":"' . $active . '"';  
         $data .= '}';
         $data .= $x < $num ? ',' : ''; $x++;
 

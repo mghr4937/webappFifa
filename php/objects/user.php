@@ -8,7 +8,7 @@ class User
     // object properties
     public $id;
     public $name;
-
+    public $active;
     // constructor with $db as database connection
     public function __construct($db)
     {
@@ -59,12 +59,12 @@ function update(){
 // delete the product
 function delete(){
     // delete query
-    $query = "DELETE FROM " . $this->table_name . " WHERE id = ?";
+    //$query = "DELETE FROM " . $this->table_name . " WHERE id = ?";
+    $query = "UPDATE " . $this->table_name . " SET active = !active WHERE id = :id";
     // prepare query
     $stmt = $this->conn->prepare($query);
     // bind id of record to delete
-    $stmt->bindParam(1, $this->id);
-
+    $stmt->bindParam(':id', $this->id);    
     // execute query
     if($stmt->execute()){
         return true;
@@ -73,10 +73,21 @@ function delete(){
     }
 }
 
-// read products
+// read all users
 function readAll(){
     // select all query
-    $query = "SELECT id, name FROM " . $this->table_name . " ORDER BY id DESC";
+    $query = "SELECT * FROM " . $this->table_name . " ORDER BY id DESC";
+    // prepare query statement
+    $stmt = $this->conn->prepare( $query );
+    // execute query
+    $stmt->execute();
+    return $stmt;
+}
+
+// read user activos
+function readActiveUsers(){
+    // select all query
+    $query = "SELECT * FROM " . $this->table_name . " WHERE active = 1 ORDER BY id DESC";
     // prepare query statement
     $stmt = $this->conn->prepare( $query );
     // execute query

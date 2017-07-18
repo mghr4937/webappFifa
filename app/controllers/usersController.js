@@ -1,7 +1,7 @@
 app.controller('usersCtrl', ['$scope', '$http', 'ngNotify', function ($scope, $http, ngNotify, uibDateParser) {
 
     ngNotify.config({
-        theme: 'pure',
+        theme: 'pastel',
         position: 'bottom',
         duration: 3000,
         type: 'info',
@@ -17,7 +17,7 @@ app.controller('usersCtrl', ['$scope', '$http', 'ngNotify', function ($scope, $h
     // read users
     $scope.getAll = function () {
         $http.get("php/dbActions/users/get_users.php").then(function (response) {
-            console.log(response.data.records);
+            console.debug(response.data.records);
             if (response.data.records != null) {
                 $scope.users = response.data.records;
                 //ngNotify.set('Datos de usuarios cargados correctamente', 'success');
@@ -53,9 +53,9 @@ app.controller('usersCtrl', ['$scope', '$http', 'ngNotify', function ($scope, $h
 
     $scope.$watch('user', function () {
         if ($scope.user.id != null) {
-            $scope.btnAdd = "Update";
+            $scope.btnAdd = "Actualizar";
         } else {
-            $scope.btnAdd = "Add";
+            $scope.btnAdd = "Agregar";
         }
     });
 
@@ -65,11 +65,11 @@ app.controller('usersCtrl', ['$scope', '$http', 'ngNotify', function ($scope, $h
             'id': row.id
         }).then(function (response) {
             $scope.user = {};
-            ngNotify.set('Usuario eliminado', 'success');
+            ngNotify.set('Datos Actualizados', 'success');
             $scope.getAll();
         }, function (error) {
             //$scope.setMsg(response.data);
-            ngNotify.set('ERROR - Usuario no eliminado', 'error');
+            ngNotify.set('ERROR', 'error');
         });
 
     }

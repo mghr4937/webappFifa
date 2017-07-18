@@ -42,8 +42,10 @@ if($num > 0){
         $data .= $x < $num ? ',' : ''; $x++;
 
       }
+}else{
+    http_response_code(500);
 }
-
+http_response_code(200);
 // json format output
 echo '{"records":[' . $data . ']}';
 ?>
