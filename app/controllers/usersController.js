@@ -103,14 +103,14 @@ app.controller('usersCtrl', ['$scope', '$http', 'ngNotify', function ($scope, $h
         $http.put('php/dbActions/users/update_user.php', {
             'name': $scope.user.name.toUpperCase(),
             'id': $scope.user.id
-        }).then(function successCallback(response) {
+        }).then(function (response) {
                 $scope.user = {};
-                $scope.setMsg(response.data);
+                ngNotify.set('Usuario actualizado', 'success'); 
+                $scope.getAll();              
             },
-            function errorCallback(response) {
-                $scope.setMsg(response.data);
-            });
-
+            function (error) {
+                ngNotify.set('ERROR', 'error');
+            });           
     }
 
     $scope.addUser = function () {
@@ -126,8 +126,7 @@ app.controller('usersCtrl', ['$scope', '$http', 'ngNotify', function ($scope, $h
             $scope.updateUser();
         }
         $scope.reset();
-        $scope.getAll();
-        //$scope.usersDisplayed = [].concat($scope.users);
+        $scope.getAll();        
     }
 
 

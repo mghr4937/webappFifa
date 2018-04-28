@@ -43,10 +43,7 @@ class Tournament{
 				if ($stmt3->execute()) {
 					$row = $stmt3->fetch(PDO::FETCH_ASSOC);
 					extract($row);
-				}
-				else {
-					log_error($this->TAG, $stmt3->errorInfo() [2]);
-				}
+				}				
 				$bool = false;
 				for ($i = 0; $i < count($this->users); $i++) {
 					$query2 = 'INSERT INTO tournament_user (id_user, id_tournament) VALUES  (:id_user,:max);';
@@ -56,73 +53,80 @@ class Tournament{
 					if ($stmt2->execute()) {
 						$bool = true;
 					}
-					else {
-						log_error($this->TAG, $stmt2->errorInfo() [2]);						
-					}
 				}
 				$bool = $this->fixture($MAX);
 				$this->conn->commit();
+				log_Info($this->TAG, 'Torneo Creado || '.$this->name.' - '.$this->place);
 				return $bool;
-			}
-			else {
-				log_error($this->TAG, $stmt->errorInfo() [2]);		
-			}
+			}			
 		}
 		catch(Exception $e) {			
-            log_error($this->TAG, 'Exception: '.$e->getMessage());	
+            log_error($this->TAG, $e);	
 			$this->conn->rollback();
 		}
 	}
+
 	public function fixture($idTournament){
-		$players = $this->users;
-		$matchs = array();
-		$bool = false;
-		foreach($players as $k) {
-			foreach($players as $j) {
-				if ($k == $j) {
-					continue;
+		try{		
+			$players = $this->users;
+			$matchs = array();
+			$bool = false;
+			foreach($players as $k) {
+				foreach($players as $j) {
+					if ($k == $j) {
+						continue;
+					}
+					$z = array($k,$j);
+					sort($z);
+					if (!in_array($z, $matchs)){
+						$matchs[] = $z;
+					}
 				}
-				$z = array($k,$j);
-				sort($z);
-				if (!in_array($z, $matchs)){
-					$matchs[] = $z;
-				}
 			}
-		}
-		foreach($matchs as $match){
-			$query = 'INSERT INTO matchs (id_tournament ,id_user_A ,id_user_B) VALUES(:id_tournament ,:id_user_A ,:id_user_B);';
-			$stmt = $this->conn->prepare($query);
-			// print_r($match);
-			$stmt->bindParam(':id_tournament', $idTournament);
-			$stmt->bindParam(':id_user_A', $match[0]->id);
-			$stmt->bindParam(':id_user_B', $match[1]->id);
-			if ($stmt->execute()) {
-				$bool = true;
+			foreach($matchs as $match){
+				$query = 'INSERT INTO matchs (id_tournament ,id_user_A ,id_user_B) VALUES(:id_tournament ,:id_user_A ,:id_user_B);';
+				$stmt = $this->conn->prepare($query);
+				// print_r($match);
+				$stmt->bindParam(':id_tournament', $idTournament);
+				$stmt->bindParam(':id_user_A', $match[0]->id);
+				$stmt->bindParam(':id_user_B', $match[1]->id);
+				if ($stmt->execute()) {
+					$bool = true;
+				}				
 			}
-			else {
-				log_error($TAG, $stmt->errorInfo());
-				return false;
-			}
-		}
-		return true;
-	}
-	// update the user
-	function update(){
-		// update query
-		$query = "UPDATE " . $this->table_name . " SET name = :name WHERE id = :id;";
-		// prepare query statement
-		$stmt = $this->conn->prepare($query);
-		// posted values
-		$this->name = htmlspecialchars(strip_tags($this->name));
-		// bind new values
-		$stmt->bindParam(':name', $this->name);
-		$stmt->bindParam(':id', $this->id);
-		// execute the query
-		if ($stmt->execute()) {
+			log_Info($this->TAG, 'Fixture Creado || '.$this->name.' - '.$this->place);			
 			return true;
+		}catch(Exception $e) {			
+            log_error($this->TAG, $e);	
+			$this->conn->rollback();
 		}
-		else {
-			return false;
+	}
+	// update the tournament
+	function update(){
+		try{
+			// update query
+			$query = "UPDATE " . $this->table_name . " SET name = :name, place = :place, monthyear = :monthyear WHERE id = :id;";
+			// prepare query statement
+			$this->conn->beginTransaction();
+			$stmt = $this->conn->prepare($query);
+			// posted values
+			$this->name = htmlspecialchars(strip_tags($this->name));
+			$this->place = htmlspecialchars(strip_tags($this->place));
+			$this->monthyear = htmlspecialchars(strip_tags($this->monthyear));
+			// bind new values
+			$stmt->bindParam(':name', $this->name);
+			$stmt->bindParam(':place', $this->place);
+			$stmt->bindParam(':monthyear', $this->monthyear);
+			$stmt->bindParam(':id', $this->id);
+			// execute the query
+			if ($stmt->execute()) {
+				$this->conn->commit();
+				log_Info($this->TAG, 'Torneo Actualizado || '.$this->name.' - '.$this->place);	
+				return true;
+			}
+		}catch(Exception $e) {			
+            log_error($this->TAG, $e);	
+			$this->conn->rollback();
 		}
     }
     
@@ -143,29 +147,38 @@ class Tournament{
     
 	// delete the product
 	function delete(){
+		try{	
 		// delete query
-		$query = "DELETE FROM " . $this->table_name . " WHERE id = ?";
-		// prepare query
-		$stmt = $this->conn->prepare($query);
-		// bind id of record to delete
-		$stmt->bindParam(1, $this->id);
-		// execute query
-		if ($stmt->execute()) {
-			return true;
-		}
-		else {
-			return false;
+			$query = "DELETE FROM " . $this->table_name . " WHERE id = ?";
+			// prepare query
+			$this->conn->beginTransaction();
+			$stmt = $this->conn->prepare($query);
+			// bind id of record to delete
+			$stmt->bindParam(1, $this->id);
+			// execute query
+			if ($stmt->execute()) {
+				$this->conn->commit();
+				return true;
+			}			
+		}catch(Exception $e) {			
+            log_error($this->TAG, $e);	
+			$this->conn->rollback();
 		}
     }
     
 	function readAll(){
+		try{
 		// select all query
-		$query = "SELECT id, name, place, monthyear, has_final, is_finish,  (SELECT COUNT(*) FROM tournament_user where id = id_tournament) AS count FROM tournaments ORDER BY id DESC";
-		// prepare query statement
-		$stmt = $this->conn->prepare($query);
-		// execute query
-		$stmt->execute();
-		return $stmt;
+			$query = "SELECT id, name, place, monthyear, has_final, is_finish,  (SELECT COUNT(*) FROM tournament_user where id = id_tournament) AS count FROM tournaments ORDER BY id DESC";
+			// prepare query statement
+			$stmt = $this->conn->prepare($query);
+			// execute query
+			$stmt->execute();
+			return $stmt;
+		}catch(Exception $e) {			
+            log_error($this->TAG, $e);	
+			$this->conn->rollback();
+		}
     }
     
 	// read products

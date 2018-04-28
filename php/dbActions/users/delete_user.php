@@ -23,8 +23,7 @@ $user->id = $data->id;
 //delete 
 if($user->delete()){
     http_response_code(200);   
-}// if unable to delete response 4xx
-else{
-    http_response_code(403);    
+}else{
+    http_response_code(400);    
 }
 ?>

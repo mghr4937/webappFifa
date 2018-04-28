@@ -18,11 +18,8 @@ $user->id = $data->id;
 $user->name = $data->name;
 // update the product
 if($user->update()){
-    echo "User was updated.";
-}
-
-// if unable to update the product, tell the user
-else{
-    echo "Unable to update User.";
+   http_response_code(200);
+}else{
+  http_response_code(400); 
 }
 ?>

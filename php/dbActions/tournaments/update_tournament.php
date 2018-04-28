@@ -12,12 +12,13 @@ $tournament = new Tournament($db);
 $data = json_decode(file_get_contents("php://input"));
 
 // set user property values
+$user->id = $data->id;
 $tournament->name = $data->name;
 $tournament->place = $data->place;
 $tournament->monthyear = $data->monthyear;
-$tournament->users = $data->users;
+
 // create the product
-if($tournament->create()){
+if($tournament->update()){
     http_response_code(200);   
 }else{
     http_response_code(400);    

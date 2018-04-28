@@ -21,10 +21,8 @@ $user->name = $data->name;
 
 // create the product
 if($user->create()){
-    http_response_code(200);
-}
-// if unable to create the product, tell the user
-else{
-   http_response_code(403);
+   http_response_code(200);
+}else{
+   http_response_code(400);
 }
 ?>

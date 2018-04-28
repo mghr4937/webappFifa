@@ -1,4 +1,15 @@
-app.controller('tournamentCtrl', ['$scope', '$http', function($scope, $http, uibDateParser) {
+app.controller('tournamentCtrl', ['$scope', '$http', 'ngNotify', function($scope, $http, ngNotify, uibDateParser) {
+
+    ngNotify.config({
+        theme: 'pastel',
+        position: 'bottom',
+        duration: 3000,
+        type: 'info',
+        sticky: false,
+        button: true,
+        html: false
+    });
+
 $scope.btnAdd = "Add";
 $scope.tour = {};
 $scope.tournaments = [];
@@ -6,15 +17,22 @@ $scope.tour.usersSel = [];
 $scope.users = users;
 $scope.tour.matches = [];
 
-$scope.getAll = function(){
-     $http.get("php/dbActions/tournaments/get_tournaments.php").then(function successCallback(response){
-        $scope.tournaments = response.records;
-        //$scope.tournamentsDisplayed = [].concat($scope.tournaments);
-    }, function errorCallback(response) {
 
+// read users
+$scope.getAll = function () {
+    $http.get("php/dbActions/tournaments/get_tournaments.php").then(function (response) {
+        console.debug(response.data.records);
+        if (response.data.records != null) {
+            $scope.tournaments = response.data.records;
+            //ngNotify.set('Datos de usuarios cargados correctamente', 'success');
+        }
+    }, function (error) {
+        console.log(error);
+        ngNotify.set('ERROR - Datos de torneos no cargados', 'error');
 
     });
 }
+$scope.getAll();
 
 $scope.getAll();
 
@@ -45,13 +63,13 @@ $http.post('php/dbActions/tournaments/insert_tournaments.php', {
         'monthyear': $scope.tour.monthyear.toUpperCase(),
         'place': $scope.tour.place.toUpperCase(),
         'users': $scope.tour.usersSel
-    }
-).then(function successCallback(response) {
+    }).then(function (response) {
       $scope.tour = {};
-      $scope.setMsg(response.data);
+      ngNotify.set('Torneo creado', 'success');
+      $scope.getAll();
     },
-      function errorCallback(response) {
-        $scope.setMsg(response.data);
+    function (error) {
+        ngNotify.set('ERROR', 'error');
     });
 }
 
